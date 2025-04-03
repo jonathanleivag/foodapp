@@ -3,5 +3,5 @@
   "editor.formatOnSave": true,
   "cSpell.language": "en, es",
   "css.lint.unknownAtRules": "ignore",
-  "cSpell.words": ["nativewind"]
+  "cSpell.words": ["foodapp", "nativewind"]
 }
