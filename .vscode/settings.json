@@ -1,5 +1,7 @@
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
-  "cSpell.language": "en, es"
+  "cSpell.language": "en, es",
+  "css.lint.unknownAtRules": "ignore",
+  "cSpell.words": ["nativewind"]
 }
