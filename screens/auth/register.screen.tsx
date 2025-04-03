@@ -10,9 +10,11 @@ import {
   Pressable
 } from 'react-native'
 
-const LoginScreen: FC = () => {
+const RegisterScreen: FC = () => {
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
 
   const fadeAnim = new Animated.Value(0)
   const slideAnim = new Animated.Value(-50)
@@ -41,12 +43,12 @@ const LoginScreen: FC = () => {
     ]).start()
   }, [])
 
-  const handleLogin = (): void => {
-    console.log('Login attempt:', { email, password })
+  const handleRegister = (): void => {
+    console.log('Register attempt:', { name, email, password, confirmPassword })
   }
 
-  const handleRegister = (): void => {
-    router.push('/register')
+  const handleLogin = (): void => {
+    router.push('/')
   }
 
   return (
@@ -61,7 +63,7 @@ const LoginScreen: FC = () => {
         >
           <Text className='text-3xl font-bold text-primary-700'>FoodApp</Text>
           <Text className='text-secondary-500 mt-2'>
-            Iniciar sesión para continuar
+            Crea tu cuenta para continuar
           </Text>
         </Animated.View>
 
@@ -72,6 +74,14 @@ const LoginScreen: FC = () => {
             transform: [{ translateY: formAnim }]
           }}
         >
+          <TextInput
+            className='bg-background-light p-4 rounded-xl border border-secondary-200 my-3'
+            placeholder='Nombre completo'
+            value={name}
+            onChangeText={setName}
+            autoCapitalize='words'
+            placeholderTextColor='#9e9e9e'
+          />
           <TextInput
             className='bg-background-light p-4 rounded-xl border border-secondary-200 my-3'
             placeholder='Correo electrónico'
@@ -89,12 +99,20 @@ const LoginScreen: FC = () => {
             secureTextEntry
             placeholderTextColor='#9e9e9e'
           />
+          <TextInput
+            className='bg-background-light p-4 rounded-xl border border-secondary-200 my-3'
+            placeholder='Confirmar contraseña'
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            secureTextEntry
+            placeholderTextColor='#9e9e9e'
+          />
           <Pressable
             className='bg-primary-500 p-4 rounded-xl active:bg-primary-600 my-3'
-            onPress={handleLogin}
+            onPress={handleRegister}
           >
             <Text className='text-white text-center font-semibold text-lg'>
-              Iniciar sesión
+              Registrarse
             </Text>
           </Pressable>
         </Animated.View>
@@ -103,9 +121,11 @@ const LoginScreen: FC = () => {
           className='flex-row justify-center mt-8'
           style={{ opacity: fadeAnim }}
         >
-          <Text className='text-secondary-700'>¿No tienes una cuenta? </Text>
-          <Pressable onPress={handleRegister}>
-            <Text className='text-primary-600 font-semibold'>Inscribirse</Text>
+          <Text className='text-secondary-700'>¿Ya tienes una cuenta? </Text>
+          <Pressable onPress={handleLogin}>
+            <Text className='text-primary-600 font-semibold'>
+              Iniciar sesión
+            </Text>
           </Pressable>
         </Animated.View>
       </View>
@@ -113,4 +133,4 @@ const LoginScreen: FC = () => {
   )
 }
 
-export default LoginScreen
+export default RegisterScreen

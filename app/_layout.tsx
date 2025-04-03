@@ -1,13 +1,23 @@
 import { FC } from 'react'
-import { View, Text } from 'react-native'
 import '../styles/global.css'
-import LoginScreen from '../screens/auth/login.screen'
+import { Stack } from 'expo-router'
 
 const Layout: FC = () => {
   return (
-    <View className='h-screen'>
-      <LoginScreen />
-    </View>
+    <Stack>
+      <Stack.Screen
+        name='index'
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name='register'
+        options={{
+          headerShown: false
+        }}
+      />
+    </Stack>
   )
 }
 
