@@ -1,12 +1,23 @@
 import { FC } from 'react'
-import { View, Text } from 'react-native'
 import '../styles/global.css'
+import { Stack } from 'expo-router'
 
 const Layout: FC = () => {
   return (
-    <View className='h-screen w-full bg-green-500'>
-      <Text className='text-red-400'>Hello World</Text>
-    </View>
+    <Stack>
+      <Stack.Screen
+        name='index'
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name='register'
+        options={{
+          headerShown: false
+        }}
+      />
+    </Stack>
   )
 }
 
