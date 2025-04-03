@@ -1,11 +1,12 @@
 import { FC } from 'react'
 import { View, Text } from 'react-native'
 import '../styles/global.css'
+import LoginScreen from '../screens/auth/login.screen'
 
 const Layout: FC = () => {
   return (
-    <View className='h-screen w-full bg-green-500'>
-      <Text className='text-red-400'>Hello World</Text>
+    <View className='h-screen'>
+      <LoginScreen />
     </View>
   )
 }
