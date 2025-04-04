@@ -19,3 +19,17 @@ export interface RegisterFormik {
 }
 
 export type METHOD = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
+
+export interface Login extends Res {
+  user?: User
+  token?: string
+}
+
+export interface User {
+  name?: string
+  email?: string
+  role?: string
+  createdAt?: Date
+  updatedAt?: Date
+  id?: string
+}

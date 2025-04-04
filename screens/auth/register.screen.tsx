@@ -12,11 +12,13 @@ import {
   Platform,
   Keyboard
 } from 'react-native'
-import { Register, RegisterFormik } from '../../type'
+import { Login, Register, RegisterFormik } from '../../type'
 import { Formik } from 'formik'
 import { Ionicons } from '@expo/vector-icons'
 import { registerValidation } from '../../validation.schema'
 import { fetchData } from '../../utils/fetchData.util'
+import { setKeychain } from '../../utils/keychain.util'
+import { SECURE_STORE_KEY } from '../../enum'
 
 const RegisterScreen: FC = () => {
   const [initialValues] = useState<RegisterFormik>({
@@ -57,6 +59,34 @@ const RegisterScreen: FC = () => {
     ]).start()
   }, [])
 
+  const handlerLogin = async (
+    email: string,
+    password: string
+  ): Promise<void> => {
+    try {
+      const data = await fetchData<Login>(
+        '/auth/login',
+        {
+          email,
+          password
+        },
+        'POST'
+      )
+      if (data.message !== undefined) {
+        setError(data.message)
+      } else {
+        setError('')
+        data.token !== undefined &&
+          (await setKeychain(SECURE_STORE_KEY.AUTH, {
+            token: data.token,
+            user: data.user
+          }))
+      }
+    } catch (error) {
+      setError('Error al iniciar sesión')
+    }
+  }
+
   const handleRegister = async (value: RegisterFormik): Promise<void> => {
     Keyboard.dismiss()
     const { name, email, password } = value
@@ -74,6 +104,7 @@ const RegisterScreen: FC = () => {
         setError(data.message)
       } else {
         setError('')
+        await handlerLogin(email, password)
         router.push('/')
       }
     } catch (error) {
