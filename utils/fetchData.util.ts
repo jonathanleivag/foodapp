@@ -8,15 +8,17 @@ export const fetchData = async <T>(
   method: METHOD = 'GET'
 ): Promise<T> => {
   try {
+    const options = {
+      method,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      ...(method !== 'GET' && { body: JSON.stringify(body) })
+    }
+
     const response = await fetch(
       `${getENV(ENV.EXPO_PUBLIC_API_URL)}${router}`,
-      {
-        method,
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-      }
+      options
     )
 
     return (await response.json()) as T
