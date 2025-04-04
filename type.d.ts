@@ -17,3 +17,5 @@ export interface RegisterFormik {
   password: string
   confirmPassword: string
 }
+
+export type METHOD = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'

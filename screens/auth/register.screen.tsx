@@ -12,12 +12,11 @@ import {
   Platform,
   Keyboard
 } from 'react-native'
-import { getENV } from '../../config/env.config'
-import { ENV } from '../../enum'
 import { Register, RegisterFormik } from '../../type'
-import * as Yup from 'yup'
 import { Formik } from 'formik'
 import { Ionicons } from '@expo/vector-icons'
+import { registerValidation } from '../../validation.schema'
+import { fetchData } from '../../utils/fetchData.util'
 
 const RegisterScreen: FC = () => {
   const [initialValues] = useState<RegisterFormik>({
@@ -60,53 +59,31 @@ const RegisterScreen: FC = () => {
 
   const handleRegister = async (value: RegisterFormik): Promise<void> => {
     Keyboard.dismiss()
+    const { name, email, password } = value
     try {
-      const { name, email, password } = value
-
-      const response = await fetch(
-        `${getENV(ENV.EXPO_PUBLIC_API_URL)}/auth/register`,
+      const data = await fetchData<Register>(
+        '/auth/register',
         {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            name,
-            email,
-            password
-          })
-        }
+          name,
+          email,
+          password
+        },
+        'POST'
       )
-
-      const data = (await response.json()) as Register
-
       if (data.message !== undefined) {
         setError(data.message)
       } else {
         setError('')
         router.push('/')
       }
-    } catch (err) {
-      setError('Error al conectar con el servidor. Intente más tarde.')
+    } catch (error) {
+      setError('Error al registrarse')
     }
   }
 
   const handleLogin = (): void => {
     router.push('/')
   }
-
-  const validationSchema = Yup.object().shape({
-    name: Yup.string().required('El nombre es requerido'),
-    email: Yup.string()
-      .email('Email inválido')
-      .required('El email es requerido'),
-    password: Yup.string()
-      .min(6, 'La contraseña debe tener al menos 6 caracteres')
-      .required('La contraseña es requerida'),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password')], 'Las contraseñas no coinciden')
-      .required('Confirmar contraseña es requerido')
-  })
 
   return (
     <SafeAreaView className='flex-1 bg-background-cream'>
@@ -116,7 +93,7 @@ const RegisterScreen: FC = () => {
       >
         <Formik
           initialValues={initialValues}
-          validationSchema={validationSchema}
+          validationSchema={registerValidation}
           onSubmit={handleRegister}
         >
           {({
