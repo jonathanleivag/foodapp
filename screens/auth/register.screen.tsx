@@ -81,6 +81,7 @@ const RegisterScreen: FC = () => {
             token: data.token,
             user: data.user
           }))
+        router.replace('/')
       }
     } catch (error) {
       setError('Error al iniciar sesión')
@@ -105,7 +106,6 @@ const RegisterScreen: FC = () => {
       } else {
         setError('')
         await handlerLogin(email, password)
-        router.push('/')
       }
     } catch (error) {
       setError('Error al registrarse')
@@ -113,7 +113,7 @@ const RegisterScreen: FC = () => {
   }
 
   const handleLogin = (): void => {
-    router.push('/')
+    router.replace('/login')
   }
 
   return (
