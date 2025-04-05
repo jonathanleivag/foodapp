@@ -55,7 +55,6 @@ const LoginScreen: FC = () => {
   }, [])
 
   const handleLogin = async (event: LoginFormik): Promise<void> => {
-    console.log('pase')
     try {
       const { email, password } = event
       const data = await fetchData<Login>(
