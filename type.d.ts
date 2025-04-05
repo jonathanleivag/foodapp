@@ -33,3 +33,8 @@ export interface User {
   updatedAt?: Date
   id?: string
 }
+
+export interface LoginFormik {
+  email: string
+  password: string
+}
