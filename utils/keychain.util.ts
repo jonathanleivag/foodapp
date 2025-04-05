@@ -33,3 +33,14 @@ export const getKeychain = async (
     return null
   }
 }
+
+export const removeKeychain = async (key: SECURE_STORE_KEY): Promise<void> => {
+  try {
+    await SecureStore.deleteItemAsync(key)
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log(error.message)
+      throw new Error(error.message)
+    }
+  }
+}

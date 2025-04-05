@@ -75,6 +75,7 @@ const LoginScreen: FC = () => {
             token: data.token,
             user: data.user
           }))
+        router.replace('/')
       }
     } catch (error) {
       setError('Error al iniciar sesión')
@@ -82,7 +83,7 @@ const LoginScreen: FC = () => {
   }
 
   const handleRegister = (): void => {
-    router.push('/register')
+    router.replace('/register')
   }
 
   return (

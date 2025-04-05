@@ -1,8 +1,8 @@
 import { FC } from 'react'
-import LoginScreen from '../screens/auth/login.screen'
+import HomeScreen from '../screens/home/home.screen'
 
-const Register: FC = () => {
-  return <LoginScreen />
+const Home: FC = () => {
+  return <HomeScreen />
 }
 
-export default Register
+export default Home
