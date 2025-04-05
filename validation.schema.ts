@@ -10,3 +10,8 @@ export const registerValidation = Yup.object().shape({
     .oneOf([Yup.ref('password')], 'Las contraseñas no coinciden')
     .required('Confirmar contraseña es requerido')
 })
+
+export const loginValidation = Yup.object().shape({
+  email: Yup.string().email('Email inválido').required('El email es requerido'),
+  password: Yup.string().required('La contraseña es requerida')
+})
