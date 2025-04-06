@@ -4,7 +4,7 @@ import { View, Text } from 'react-native'
 const CartScreen: FC = () => {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>About Drawer Page</Text>
+      <Text>Card tab Page</Text>
     </View>
   )
 }
