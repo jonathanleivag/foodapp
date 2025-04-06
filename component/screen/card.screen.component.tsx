@@ -1,0 +1,51 @@
+import { Ionicons } from '@expo/vector-icons'
+import { FC } from 'react'
+import { View, Image, Text, TouchableOpacity } from 'react-native'
+import { CardScreenComponentProps } from '../../type'
+
+const CardScreenComponent: FC<CardScreenComponentProps> = (props) => {
+  return (
+    <View className='bg-white rounded-xl shadow-lg overflow-hidden my-9'>
+      <Image
+        source={{
+          uri: props.image
+        }}
+        className='w-full h-48'
+      />
+      <View className='absolute top-4 left-4 bg-black/70 px-3 py-1.5 rounded-full'>
+        <Text className='text-white text-xs font-semibold'>
+          {props.category}
+        </Text>
+      </View>
+
+      <View className='p-4'>
+        <Text className='text-lg font-bold text-secondary-800 mb-2'>
+          {props.title}
+        </Text>
+        <Text className='text-secondary-500 text-sm mb-2'>
+          {props.description}
+        </Text>
+
+        <View className='flex-row items-center mb-4'>
+          <Ionicons name='flame' size={16} color='#FF6B6B' />
+          <Text className='text-secondary-500 text-sm ml-1'>
+            {props.calories} cal
+          </Text>
+        </View>
+
+        <View className='flex-row justify-between items-center'>
+          <Text className='text-xl font-bold text-primary-500'>
+            ${props.price}
+          </Text>
+          <TouchableOpacity
+            className='bg-primary-500 w-10 h-10 rounded-full items-center justify-center'
+            activeOpacity={0.7}
+          >
+            <Ionicons name='add' size={24} color='white' />
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
+  )
+}
+export default CardScreenComponent
