@@ -24,6 +24,8 @@ const ModalCardComponent: FC<ModalCardComponentProps> = ({
   ingredients
 }) => {
   const [quantity, setQuantity] = useState(1)
+  const [selectedIngredients, setSelectedIngredients] =
+    useState<string[]>(ingredients)
   const [selectedExtras, setSelectedExtras] = useState<string[]>([])
   const [error, setError] = useState<string | string[]>('')
   const dispatch = useAppDispatch()
@@ -70,6 +72,16 @@ const ModalCardComponent: FC<ModalCardComponentProps> = ({
     return (price + extrasTotal) * quantity
   }
 
+  // Add new toggle function for base ingredients
+  const toggleIngredient = (ingredientName: string): void => {
+    setSelectedIngredients((prev) =>
+      prev.includes(ingredientName)
+        ? prev.filter((i) => i !== ingredientName)
+        : [...prev, ingredientName]
+    )
+  }
+
+  // Modify handleAddToCart to use selected ingredients
   const handleAddToCart = async (): Promise<void> => {
     try {
       const auth = await getKeychain(SECURE_STORE_KEY.AUTH)
@@ -85,6 +97,8 @@ const ModalCardComponent: FC<ModalCardComponentProps> = ({
         {
           productId: id,
           quantity,
+          ingredients: [...ingredientsBase, ...selectedIngredients],
+          extraIngredients: selectedExtras,
           extra: extraTotal
         },
         'POST',
@@ -103,6 +117,7 @@ const ModalCardComponent: FC<ModalCardComponentProps> = ({
         setModalVisible(false)
         setQuantity(1)
         setSelectedExtras([])
+        setSelectedIngredients(ingredients)
         dispatch(increment())
       }
     } catch (error) {
@@ -112,6 +127,7 @@ const ModalCardComponent: FC<ModalCardComponentProps> = ({
     }
   }
 
+  // Replace the ingredients section with this:
   return (
     <>
       <Toast
@@ -131,10 +147,7 @@ const ModalCardComponent: FC<ModalCardComponentProps> = ({
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
       >
-        <Pressable
-          className='flex-1 justify-end'
-          onPress={() => setModalVisible(false)}
-        >
+        <View className='flex-1 justify-end'>
           <View className='bg-white rounded-t-3xl p-6 border border-gray-300'>
             {error !== '' && (
               <View className='mx-8 mt-4 p-4 bg-accent-error/10 rounded-xl border border-accent-error'>
@@ -236,16 +249,26 @@ const ModalCardComponent: FC<ModalCardComponentProps> = ({
                 Ingredientes
               </Text>
               <View className='flex-row flex-wrap gap-2'>
-                {ingredients?.map((ingredient, index) => (
-                  <View
-                    key={index}
-                    className='bg-secondary-100 px-3 py-1.5 rounded-full'
-                  >
-                    <Text className='text-secondary-600 text-sm'>
-                      {ingredient}
-                    </Text>
-                  </View>
-                ))}
+                {ingredients?.map((ingredient, index) => {
+                  const isSelected = selectedIngredients.includes(ingredient)
+                  return (
+                    <Pressable
+                      key={index}
+                      onPress={() => toggleIngredient(ingredient)}
+                      className={`px-3 py-1.5 rounded-full flex-row items-center ${
+                        isSelected ? 'bg-primary-500' : 'bg-primary-100'
+                      }`}
+                    >
+                      <Text
+                        className={`text-sm ${
+                          isSelected ? 'text-white' : 'text-primary-600'
+                        }`}
+                      >
+                        {ingredient}
+                      </Text>
+                    </Pressable>
+                  )
+                })}
               </View>
             </View>
 
@@ -286,14 +309,16 @@ const ModalCardComponent: FC<ModalCardComponentProps> = ({
 
             <Pressable
               className='bg-primary-500 p-4 rounded-xl items-center'
-              onPress={handleAddToCart}
+              onPress={() => {
+                void handleAddToCart()
+              }}
             >
               <Text className='text-white font-bold text-lg'>
                 Agregar {quantity} al carrito - ${calculateTotal()}
               </Text>
             </Pressable>
           </View>
-        </Pressable>
+        </View>
       </Modal>
     </>
   )
