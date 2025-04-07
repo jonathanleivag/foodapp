@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Image, Modal, Pressable, Text, View } from 'react-native'
 import { Card, ModalCardComponentProps } from '../../../../type'
 import { Ionicons } from '@expo/vector-icons'
@@ -6,6 +6,8 @@ import { fetchData } from '../../../../utils/fetchData.util'
 import { getKeychain } from '../../../../utils/keychain.util'
 import { SECURE_STORE_KEY } from '../../../../enum'
 import Toast, { BaseToast } from 'react-native-toast-message'
+import { useAppDispatch } from '../../../../redux/hooks'
+import { amount, increment } from '../../../../redux/cart/cart.slice'
 
 const ModalCardComponent: FC<ModalCardComponentProps> = ({
   id,
@@ -24,6 +26,30 @@ const ModalCardComponent: FC<ModalCardComponentProps> = ({
   const [quantity, setQuantity] = useState(1)
   const [selectedExtras, setSelectedExtras] = useState<string[]>([])
   const [error, setError] = useState<string | string[]>('')
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    const active = async (): Promise<void> => {
+      try {
+        const auth = await getKeychain(SECURE_STORE_KEY.AUTH)
+        const data = await fetchData<Card>(
+          '/cart/active',
+          {},
+          'GET',
+          auth?.token
+        )
+
+        if (data.message === undefined) {
+          dispatch(amount(data.items.length))
+        }
+      } catch (error) {
+        dispatch(amount(0))
+      }
+    }
+
+    void active()
+    return () => {}
+  }, [])
 
   const handleIncrement = (): void => setQuantity((prev) => prev + 1)
   const handleDecrement = (): void =>
@@ -77,6 +103,7 @@ const ModalCardComponent: FC<ModalCardComponentProps> = ({
         setModalVisible(false)
         setQuantity(1)
         setSelectedExtras([])
+        dispatch(increment())
       }
     } catch (error) {
       if (error instanceof Error) {

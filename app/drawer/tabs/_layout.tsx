@@ -2,9 +2,10 @@ import { Tabs } from 'expo-router'
 import { FC } from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import { View, Text } from 'react-native'
+import { useAppSelector } from '../../../redux/hooks'
 
 const TabsLayout: FC = () => {
-  const cartItemsCount = 3
+  const cartItemsCount = useAppSelector((state) => state.cart.value)
 
   return (
     <Tabs>
