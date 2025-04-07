@@ -132,6 +132,23 @@ export interface Item {
   product: Product
   quantity: number
   extra: number
+  ingredients: string[]
+  extraIngredients?: string[]
   price: number
+  _id: string
+}
+
+export interface CartItem {
+  user: string
+  items: Item[]
+  total: number
+  isCompleted: boolean
+  createdAt: Date
+  updatedAt: Date
   id: string
+}
+
+export interface RenderItemProps {
+  item: Item
+  cartId: string
 }
