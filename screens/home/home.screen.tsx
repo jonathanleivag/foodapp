@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import { View, Text, FlatList, ActivityIndicator } from 'react-native'
-import CardScreenComponent from '../../component/screen/card.screen.component'
+import CardScreenComponent from '../../components/screen/card.screen.component'
 import { useDataFetch } from '../../hooks/useDataFetch.hook'
 import { PaginateProduct } from '../../type'
 

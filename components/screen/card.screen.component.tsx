@@ -5,12 +5,13 @@ import { CardScreenComponentProps } from '../../type'
 
 const CardScreenComponent: FC<CardScreenComponentProps> = (props) => {
   return (
-    <View className='bg-white rounded-xl shadow-lg overflow-hidden my-9'>
+    <View className='bg-white rounded-xl shadow-lg overflow-hidden my-5 border border-gray-200'>
       <Image
         source={{
           uri: props.image
         }}
-        className='w-full h-48'
+        className='w-full h-48 rounded-b-xl shadow-lg'
+        resizeMode='cover'
       />
       <View className='absolute top-4 left-4 bg-black/70 px-3 py-1.5 rounded-full'>
         <Text className='text-white text-xs font-semibold'>
