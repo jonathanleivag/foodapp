@@ -50,6 +50,7 @@ const CardScreenComponent: FC<CardScreenComponentProps> = (props) => {
           </View>
         </View>
         <ModalCardComponent
+          id={props.id}
           title={props.title}
           calories={props.calories}
           category={props.category}

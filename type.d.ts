@@ -41,6 +41,7 @@ export interface LoginFormik {
 }
 
 export interface CardScreenComponentProps {
+  id: string
   image: string
   category: string
   title: string
@@ -48,7 +49,7 @@ export interface CardScreenComponentProps {
   price: number
   calories: number
   ingredientsBase: string[]
-  ingredientsExtra: string[]
+  ingredientsExtra: ingredientsExtra[]
   ingredients: string[]
 }
 
@@ -103,6 +104,7 @@ export interface ingredientsExtra {
 }
 
 export interface ModalCardComponentProps {
+  id: string
   modalVisible: boolean
   setModalVisible: Dispatch<SetStateAction<boolean>>
   image: string
@@ -114,4 +116,22 @@ export interface ModalCardComponentProps {
   ingredientsBase: string[]
   ingredientsExtra: ingredientsExtra[]
   ingredients: string[]
+}
+
+export interface Card extends Res {
+  user: string
+  items: Item[]
+  total: number
+  isCompleted: boolean
+  createdAt: Date
+  updatedAt: Date
+  id: string
+}
+
+export interface Item {
+  product: Product
+  quantity: number
+  extra: number
+  price: number
+  id: string
 }

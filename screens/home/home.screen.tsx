@@ -65,6 +65,7 @@ const HomeScreen: FC = () => {
         data={products}
         renderItem={({ item }) => (
           <CardScreenComponent
+            id={item.id}
             image={item.imageUrl}
             title={item.name}
             category={item.category}
