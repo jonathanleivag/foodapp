@@ -1,12 +1,8 @@
 import { FC } from 'react'
-import { View, Text } from 'react-native'
+import CartScreen from '../../../screens/home/cart.screen'
 
-const CartScreen: FC = () => {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Card tab Page</Text>
-    </View>
-  )
+const Cart: FC = () => {
+  return <CartScreen />
 }
 
-export default CartScreen
+export default Cart
