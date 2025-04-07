@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react'
 export interface Res {
   statusCode?: number
   message?: string | string[]
@@ -46,6 +47,9 @@ export interface CardScreenComponentProps {
   description: string
   price: number
   calories: number
+  ingredientsBase: string[]
+  ingredientsExtra: string[]
+  ingredients: string[]
 }
 
 export interface Product {
@@ -90,4 +94,24 @@ export interface Paginate {
 
 export interface PaginateProduct extends Paginate {
   data: Product[]
+}
+
+export interface ingredientsExtra {
+  name: string
+  price: number
+  _id: string
+}
+
+export interface ModalCardComponentProps {
+  modalVisible: boolean
+  setModalVisible: Dispatch<SetStateAction<boolean>>
+  image: string
+  title: string
+  price: number
+  category: string
+  calories: number
+  description: string
+  ingredientsBase: string[]
+  ingredientsExtra: ingredientsExtra[]
+  ingredients: string[]
 }

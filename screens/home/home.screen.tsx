@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import { View, Text, FlatList, ActivityIndicator } from 'react-native'
-import CardScreenComponent from '../../components/screen/card.screen.component'
+import CardScreenComponent from '../../components/screen/card/card.screen.component'
 import { useDataFetch } from '../../hooks/useDataFetch.hook'
 import { PaginateProduct } from '../../type'
 
@@ -71,6 +71,9 @@ const HomeScreen: FC = () => {
             description={item.description}
             price={item.price}
             calories={item.calories}
+            ingredientsBase={item.baseIngredients}
+            ingredientsExtra={item.extraIngredients}
+            ingredients={item.ingredients}
           />
         )}
         keyExtractor={(item) => item.id}
