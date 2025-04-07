@@ -3,6 +3,7 @@ import { FC, useState } from 'react'
 import { View, Image, Text, Pressable } from 'react-native'
 import { CardScreenComponentProps } from '../../../type'
 import ModalCardComponent from './components/modal.card.component'
+import { formatChileanPesos } from '../../../utils/price.util'
 
 const CardScreenComponent: FC<CardScreenComponentProps> = (props) => {
   const [modalVisible, setModalVisible] = useState(false)
@@ -39,7 +40,7 @@ const CardScreenComponent: FC<CardScreenComponentProps> = (props) => {
 
           <View className='flex-row justify-between items-center'>
             <Text className='text-xl font-bold text-primary-500'>
-              ${props.price}
+              {formatChileanPesos(props.price)}
             </Text>
             <Pressable
               className='bg-primary-500 w-10 h-10 rounded-full items-center justify-center'

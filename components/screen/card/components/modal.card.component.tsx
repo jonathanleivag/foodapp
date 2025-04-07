@@ -8,6 +8,7 @@ import { SECURE_STORE_KEY } from '../../../../enum'
 import Toast, { BaseToast } from 'react-native-toast-message'
 import { useAppDispatch } from '../../../../redux/hooks'
 import { amount, increment } from '../../../../redux/cart/cart.slice'
+import { formatChileanPesos } from '../../../../utils/price.util'
 
 const ModalCardComponent: FC<ModalCardComponentProps> = ({
   id,
@@ -175,15 +176,16 @@ const ModalCardComponent: FC<ModalCardComponentProps> = ({
               <View className='flex-row items-center justify-between'>
                 <View>
                   <Text className='text-2xl font-bold text-primary-500'>
-                    ${price * quantity}
+                    {formatChileanPesos(price * quantity)}
                   </Text>
                   {selectedExtras.length > 0 && (
                     <Text className='text-sm text-primary-400'>
-                      +$
-                      {ingredientsExtra
-                        .filter((ing) => selectedExtras.includes(ing.name))
-                        .reduce((sum, ing) => sum + ing.price, 0) *
-                        quantity}{' '}
+                      +
+                      {formatChileanPesos(
+                        ingredientsExtra
+                          .filter((ing) => selectedExtras.includes(ing.name))
+                          .reduce((sum, ing) => sum + ing.price, 0) * quantity
+                      )}{' '}
                       extras
                     </Text>
                   )}
@@ -299,7 +301,7 @@ const ModalCardComponent: FC<ModalCardComponentProps> = ({
                           isSelected ? 'text-white' : 'text-primary-600'
                         }`}
                       >
-                        +${ingredient.price}
+                        +{formatChileanPesos(ingredient.price)}
                       </Text>
                     </Pressable>
                   )
@@ -329,7 +331,8 @@ const ModalCardComponent: FC<ModalCardComponentProps> = ({
               }}
             >
               <Text className='text-white font-bold text-lg'>
-                Agregar {quantity} al carrito - ${calculateTotal()}
+                Agregar {quantity} al carrito -{' '}
+                {formatChileanPesos(calculateTotal())}
               </Text>
             </Pressable>
           </View>
