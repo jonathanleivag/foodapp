@@ -1,5 +1,6 @@
 import { Stack } from 'expo-router'
 import { FC } from 'react'
+import Toast from 'react-native-toast-message'
 import '../styles/global.css'
 
 const Layout: FC = () => {

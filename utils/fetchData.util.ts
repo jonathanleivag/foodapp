@@ -5,13 +5,15 @@ import { METHOD } from '../type'
 export const fetchData = async <T>(
   router: string,
   body: object,
-  method: METHOD = 'GET'
+  method: METHOD = 'GET',
+  token: string | undefined = undefined
 ): Promise<T> => {
   try {
     const options = {
       method,
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        ...(token !== undefined && { Authorization: `Bearer ${token}` })
       },
       ...(method !== 'GET' && { body: JSON.stringify(body) })
     }
