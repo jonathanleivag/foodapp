@@ -7,6 +7,7 @@ import { getKeychain } from '../../../../utils/keychain.util'
 import { SECURE_STORE_KEY } from '../../../../enum'
 import { decrement, setTotal } from '../../../../redux/cart/cart.slice'
 import { useAppDispatch } from '../../../../redux/hooks'
+import { formatChileanPesos } from '../../../../utils/price.util'
 
 const RenderItem: FC<RenderItemProps> = ({
   item,
@@ -96,11 +97,11 @@ const RenderItem: FC<RenderItemProps> = ({
           {item.product.name}
         </Text>
         <Text className='text-primary-700 font-bold text-base'>
-          ${item.price}
+          {formatChileanPesos(item.price)}
         </Text>
         {item.extra > 0 && (
           <Text className='text-sm text-primary-400'>
-            +${item.extra} extras
+            +{formatChileanPesos(item.extra)} extras
           </Text>
         )}
         {item.ingredients !== undefined && item.ingredients.length > 0 && (
@@ -116,7 +117,7 @@ const RenderItem: FC<RenderItemProps> = ({
             // eslint-disable-next-line @typescript-eslint/indent
           )}
         <Text className='text-secondary-600 text-sm mt-1'>
-          Subtotal: ${subTotal}
+          Subtotal: {formatChileanPesos(subTotal)}
         </Text>
         <View className='flex-row items-center mt-2'>
           <Pressable

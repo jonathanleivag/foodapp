@@ -6,6 +6,7 @@ import { CartItem } from '../../type'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import EmptyCart from '../../components/screen/cart/components/emptyCart.screen.component'
 import { setTotal } from '../../redux/cart/cart.slice'
+import { formatChileanPesos } from '../../utils/price.util'
 
 const CartScreen: FC = () => {
   const cartItemsCount = useAppSelector((state) => state.cart.value)
@@ -57,7 +58,9 @@ const CartScreen: FC = () => {
         <View className='bg-white p-4 shadow-lg'>
           <View className='flex-row justify-between items-center mb-4'>
             <Text className='text-secondary-600 text-lg'>Total:</Text>
-            <Text className='text-primary-700 text-xl font-bold'>${total}</Text>
+            <Text className='text-primary-700 text-xl font-bold'>
+              {formatChileanPesos(total)}
+            </Text>
           </View>
           <Pressable
             disabled={disabled}
