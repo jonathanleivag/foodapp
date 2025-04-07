@@ -1,12 +1,8 @@
 import { FC } from 'react'
-import { View, Text } from 'react-native'
+import AboutScreen from '../../screens/drawer/about.screen'
 
-const AboutScreen: FC = () => {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>About Drawer Page</Text>
-    </View>
-  )
+const About: FC = () => {
+  return <AboutScreen />
 }
 
-export default AboutScreen
+export default About
