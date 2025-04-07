@@ -3,6 +3,8 @@ import { FC, useEffect, useState } from 'react'
 import { getKeychain } from '../utils/keychain.util'
 import { SECURE_STORE_KEY } from '../enum'
 import { ActivityIndicator, View } from 'react-native'
+import { fetchData } from '../utils/fetchData.util'
+import { Res } from '../type'
 
 const Index: FC = () => {
   const router = useRouter()
@@ -16,7 +18,16 @@ const Index: FC = () => {
       try {
         const storedToken = await getKeychain(SECURE_STORE_KEY.AUTH)
         if (storedToken !== null) {
-          storedToken.token !== undefined && setToken(storedToken.token)
+          if (storedToken.token !== undefined) {
+            const data = await fetchData<Res>(
+              `/auth/revalidate?token=${storedToken.token}`
+            )
+            if (data.message === undefined) {
+              setToken(storedToken.token)
+            } else {
+              setToken(null)
+            }
+          }
         }
       } catch (error) {
         console.error('Error fetching token:', error)

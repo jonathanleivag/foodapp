@@ -4,10 +4,12 @@ import { RootState } from '../store'
 
 interface CartState {
   value: number
+  total: number
 }
 
 const initialState: CartState = {
-  value: 0
+  value: 0,
+  total: 0
 }
 
 export const cartSlice = createSlice({
@@ -25,11 +27,14 @@ export const cartSlice = createSlice({
     },
     amount: (state, action: PayloadAction<number>) => {
       state.value = action.payload
+    },
+    setTotal: (state, action: PayloadAction<number>) => {
+      state.total = action.payload
     }
   }
 })
 
-export const { increment, decrement, incrementByAmount, amount } =
+export const { increment, decrement, incrementByAmount, amount, setTotal } =
   cartSlice.actions
 
 export const selectCount = (state: RootState): number => state.cart.value

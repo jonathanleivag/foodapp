@@ -22,7 +22,9 @@ const TabsLayout: FC = () => {
                 color={focused ? '#f57c00' : '#9e9e9e'}
               />
             )
-          }
+          },
+          tabBarActiveTintColor: '#f57c00',
+          tabBarInactiveTintColor: '#9e9e9e'
         }}
       />
       <Tabs.Screen
@@ -30,6 +32,8 @@ const TabsLayout: FC = () => {
         options={{
           title: 'Carrito',
           headerShown: false,
+          tabBarActiveTintColor: '#f57c00',
+          tabBarInactiveTintColor: '#9e9e9e',
           tabBarIcon: ({ focused }: { focused: boolean }) => {
             return (
               <View>

@@ -1,13 +1,16 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useDataFetchResponse } from '../type'
 import { getENV } from '../config/env.config'
-import { ENV } from '../enum'
+import { ENV, SECURE_STORE_KEY } from '../enum'
+import { getKeychain } from '../utils/keychain.util'
 
 export const useDataFetch = <T>(
   router: string,
   pagination: boolean = false,
   page: number = 1,
-  limit: number = 5
+  limit: number = 5,
+  token: boolean = false,
+  update: any = ''
 ): useDataFetchResponse<T> => {
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   const [data, setData] = useState<T>({} as T)
@@ -21,10 +24,19 @@ export const useDataFetch = <T>(
         ? `${getENV(ENV.EXPO_PUBLIC_API_URL)}${router}?page=${page}&limit=${limit}`
         : `${getENV(ENV.EXPO_PUBLIC_API_URL)}${router}`
 
+      const tokenAuth = await getKeychain(SECURE_STORE_KEY.AUTH)
+
+      if (token && tokenAuth === null) {
+        throw new Error('Token not found')
+      }
+
       const response = await fetch(uri, {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          ...(token && {
+            Authorization: `Bearer ${tokenAuth?.token as string | ''}`
+          })
         }
       })
 
@@ -48,7 +60,7 @@ export const useDataFetch = <T>(
     } finally {
       setIsLoading(false)
     }
-  }, [page, router, limit, pagination])
+  }, [page, router, limit, pagination, update])
 
   useEffect(() => {
     void fetchData()
