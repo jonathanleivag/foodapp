@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react'
-import { Image, Modal, Pressable, Text, View } from 'react-native'
+import { Image, Modal, Pressable, Text, View, Alert } from 'react-native'
 import { Card, ModalCardComponentProps } from '../../../../type'
 import { Ionicons } from '@expo/vector-icons'
 import { fetchData } from '../../../../utils/fetchData.util'
@@ -310,7 +310,22 @@ const ModalCardComponent: FC<ModalCardComponentProps> = ({
             <Pressable
               className='bg-primary-500 p-4 rounded-xl items-center'
               onPress={() => {
-                void handleAddToCart()
+                Alert.alert(
+                  'Confirmar pedido',
+                  `¿Deseas agregar ${quantity} ${title} al carrito?`,
+                  [
+                    {
+                      text: 'Cancelar',
+                      style: 'cancel'
+                    },
+                    {
+                      text: 'Agregar',
+                      onPress: () => {
+                        void handleAddToCart()
+                      }
+                    }
+                  ]
+                )
               }}
             >
               <Text className='text-white font-bold text-lg'>

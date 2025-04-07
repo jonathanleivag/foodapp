@@ -1,13 +1,17 @@
-import { FC } from 'react'
-import { View, Text, FlatList, TouchableOpacity } from 'react-native'
+import { FC, useEffect, useState } from 'react'
+import { View, Text, FlatList, Pressable } from 'react-native'
 import RenderItem from '../../components/screen/cart/components/card.screen.component'
 import { useDataFetch } from '../../hooks/useDataFetch.hook'
 import { CartItem } from '../../type'
-import { useAppSelector } from '../../redux/hooks'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import EmptyCart from '../../components/screen/cart/components/emptyCart.screen.component'
+import { setTotal } from '../../redux/cart/cart.slice'
 
 const CartScreen: FC = () => {
   const cartItemsCount = useAppSelector((state) => state.cart.value)
+  const total = useAppSelector((state) => state.cart.total)
+  const [disabled, setDisabled] = useState<boolean>(false)
+  const dispatch = useAppDispatch()
 
   const [data, loading] = useDataFetch<CartItem>(
     '/cart/active',
@@ -17,6 +21,13 @@ const CartScreen: FC = () => {
     true,
     cartItemsCount
   )
+
+  useEffect(() => {
+    if (!loading) {
+      dispatch(setTotal(data.total))
+    }
+    return () => {}
+  }, [data, loading])
 
   return (
     <View className='flex-1 bg-background-light'>
@@ -28,7 +39,14 @@ const CartScreen: FC = () => {
       {!loading && (
         <FlatList
           data={cartItemsCount > 0 ? data.items : []}
-          renderItem={({ item }) => <RenderItem item={item} cartId={data.id} />}
+          renderItem={({ item }) => (
+            <RenderItem
+              item={item}
+              cartId={data.id}
+              disable={disabled}
+              setDisable={setDisabled}
+            />
+          )}
           keyExtractor={(item, index) => `${index}-${item._id}`}
           ListEmptyComponent={EmptyCart}
           contentContainerStyle={{ flexGrow: 1 }}
@@ -39,15 +57,22 @@ const CartScreen: FC = () => {
         <View className='bg-white p-4 shadow-lg'>
           <View className='flex-row justify-between items-center mb-4'>
             <Text className='text-secondary-600 text-lg'>Total:</Text>
-            <Text className='text-primary-700 text-xl font-bold'>
-              ${data.total}
-            </Text>
+            <Text className='text-primary-700 text-xl font-bold'>${total}</Text>
           </View>
-          <TouchableOpacity className='bg-primary-700 p-4 rounded-xl'>
-            <Text className='text-white text-center text-lg font-semibold'>
+          <Pressable
+            disabled={disabled}
+            className={`p-4 rounded-xl ${
+              disabled ? 'bg-secondary-300' : 'bg-primary-700'
+            }`}
+          >
+            <Text
+              className={`text-center text-lg font-semibold ${
+                disabled ? 'text-secondary-500' : 'text-white'
+              }`}
+            >
               Proceder al pago
             </Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       )}
     </View>

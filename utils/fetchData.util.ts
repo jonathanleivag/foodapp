@@ -4,7 +4,7 @@ import { METHOD } from '../type'
 
 export const fetchData = async <T>(
   router: string,
-  body: object,
+  body: object = {},
   method: METHOD = 'GET',
   token: string | undefined = undefined
 ): Promise<T> => {

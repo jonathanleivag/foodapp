@@ -151,4 +151,6 @@ export interface CartItem {
 export interface RenderItemProps {
   item: Item
   cartId: string
+  disable: boolean
+  setDisable: Dispatch<SetStateAction<boolean>>
 }
