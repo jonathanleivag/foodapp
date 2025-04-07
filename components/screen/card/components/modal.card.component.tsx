@@ -49,14 +49,16 @@ const ModalCardComponent: FC<ModalCardComponentProps> = ({
         className='flex-1 justify-end'
         onPress={() => setModalVisible(false)}
       >
-        <Pressable className='bg-white rounded-t-3xl p-6 border border-gray-300'>
-          <View className='items-center mb-6'>
-            <View className='w-20 h-1 bg-gray-300 rounded-full' />
-          </View>
-
+        <View className='bg-white rounded-t-3xl p-6 border border-gray-300'>
+          <Pressable
+            className='absolute top-0 right-5 p-1 my-3 z-10 bg-red-500 rounded-full'
+            onPress={() => setModalVisible(false)}
+          >
+            <Ionicons name='close' size={25} color='white' />
+          </Pressable>
           <Image
             source={{ uri: image }}
-            className='w-full h-48 rounded-xl mb-4'
+            className='w-full h-48 rounded-xl my-4'
             resizeMode='cover'
           />
 
@@ -145,9 +147,11 @@ const ModalCardComponent: FC<ModalCardComponentProps> = ({
               {ingredients?.map((ingredient, index) => (
                 <View
                   key={index}
-                  className='bg-primary-100 px-3 py-1.5 rounded-full'
+                  className='bg-secondary-100 px-3 py-1.5 rounded-full'
                 >
-                  <Text className='text-primary-600 text-sm'>{ingredient}</Text>
+                  <Text className='text-secondary-600 text-sm'>
+                    {ingredient}
+                  </Text>
                 </View>
               ))}
             </View>
@@ -196,7 +200,7 @@ const ModalCardComponent: FC<ModalCardComponentProps> = ({
               Agregar {quantity} al carrito - ${calculateTotal().toFixed(2)}
             </Text>
           </Pressable>
-        </Pressable>
+        </View>
       </Pressable>
     </Modal>
   )
