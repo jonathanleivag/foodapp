@@ -4,7 +4,7 @@ import { getKeychain } from '../utils/keychain.util'
 import { SECURE_STORE_KEY } from '../enum'
 import { ActivityIndicator, View } from 'react-native'
 import { fetchData } from '../utils/fetchData.util'
-import { Res } from '../type'
+import { JSONWebTokenRevalidate } from '../type'
 
 const Index: FC = () => {
   const router = useRouter()
@@ -19,11 +19,11 @@ const Index: FC = () => {
         const storedToken = await getKeychain(SECURE_STORE_KEY.AUTH)
         if (storedToken !== null) {
           if (storedToken.token !== undefined) {
-            const data = await fetchData<Res>(
+            const data = await fetchData<JSONWebTokenRevalidate>(
               `/auth/revalidate?token=${storedToken.token}`
             )
             if (data.message === undefined) {
-              setToken(storedToken.token)
+              setToken(data.token)
             } else {
               setToken(null)
             }

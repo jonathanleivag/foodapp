@@ -158,3 +158,8 @@ export interface RenderItemProps {
 export interface Payment extends Res {
   init_point: string
 }
+
+export interface JSONWebTokenRevalidate extends Res {
+  token: string
+  user: User
+}
