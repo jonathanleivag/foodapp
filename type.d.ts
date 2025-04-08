@@ -154,3 +154,7 @@ export interface RenderItemProps {
   disable: boolean
   setDisable: Dispatch<SetStateAction<boolean>>
 }
+
+export interface Payment extends Res {
+  init_point: string
+}
