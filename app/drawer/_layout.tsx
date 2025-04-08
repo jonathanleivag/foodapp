@@ -1,12 +1,36 @@
+import { Ionicons } from '@expo/vector-icons'
 import { Drawer } from 'expo-router/drawer'
 import { FC } from 'react'
-import { Dimensions } from 'react-native'
+import { Dimensions, View, Pressable } from 'react-native'
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 
 const DrawerLayout: FC = () => {
   return (
     <Drawer
-      screenOptions={{
+      screenOptions={({ navigation }: { navigation: any }) => ({
         headerTitle: 'FoodApp',
+        headerLeft: () => (
+          <Pressable className='px-4' onPress={() => navigation.openDrawer()}>
+            <FontAwesome5 name='hamburger' size={24} color='#f97316' />
+          </Pressable>
+        ),
+        headerRight: () => (
+          <View style={{ flexDirection: 'row', marginRight: 15 }}>
+            <Ionicons
+              name='checkmark-done'
+              size={24}
+              color='#f97316'
+              onPress={() => alert('Notificaciones')}
+              style={{ marginRight: 15 }}
+            />
+            <Ionicons
+              name='time-outline'
+              size={24}
+              color='#f97316'
+              onPress={() => alert('Carrito')}
+            />
+          </View>
+        ),
         headerStyle: {
           backgroundColor: '#fff3e0',
           height: 130,
@@ -32,7 +56,7 @@ const DrawerLayout: FC = () => {
           fontWeight: '600',
           marginLeft: -10
         }
-      }}
+      })}
     >
       <Drawer.Screen
         name='tabs'
