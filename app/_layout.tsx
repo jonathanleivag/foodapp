@@ -26,6 +26,13 @@ const Layout: FC = () => {
             headerShown: false
           }}
         />
+
+        <Stack.Screen
+          name='payment'
+          options={{
+            headerShown: false
+          }}
+        />
       </Stack>
     </Provider>
   )
