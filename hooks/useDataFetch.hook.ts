@@ -10,10 +10,11 @@ export const useDataFetch = <T>(
   page: number = 1,
   limit: number = 5,
   token: boolean = false,
-  update: any = ''
-): useDataFetchResponse<T> => {
+  update: any = '',
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  const [data, setData] = useState<T>({} as T)
+  typeDataInitial: T = {} as T
+): useDataFetchResponse<T> => {
+  const [data, setData] = useState<T>(typeDataInitial)
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
   const [isLastPage, setIsLastPage] = useState<boolean>(false)

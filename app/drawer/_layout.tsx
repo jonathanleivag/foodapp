@@ -3,8 +3,11 @@ import { Drawer } from 'expo-router/drawer'
 import { FC } from 'react'
 import { Dimensions, View, Pressable } from 'react-native'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
+import { useRouter } from 'expo-router'
 
 const DrawerLayout: FC = () => {
+  const router = useRouter()
+
   return (
     <Drawer
       screenOptions={({ navigation }: { navigation: any }) => ({
@@ -17,17 +20,10 @@ const DrawerLayout: FC = () => {
         headerRight: () => (
           <View style={{ flexDirection: 'row', marginRight: 15 }}>
             <Ionicons
-              name='checkmark-done'
-              size={24}
+              name='time-sharp'
+              size={30}
               color='#f97316'
-              onPress={() => alert('Notificaciones')}
-              style={{ marginRight: 15 }}
-            />
-            <Ionicons
-              name='time-outline'
-              size={24}
-              color='#f97316'
-              onPress={() => alert('Carrito')}
+              onPress={() => router.push('/timer')}
             />
           </View>
         ),

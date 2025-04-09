@@ -51,6 +51,7 @@ export interface CardScreenComponentProps {
   ingredientsBase: string[]
   ingredientsExtra: ingredientsExtra[]
   ingredients: string[]
+  orderDate: Date | null
 }
 
 export interface Product {
@@ -126,6 +127,8 @@ export interface Card extends Res {
   createdAt: Date
   updatedAt: Date
   id: string
+  remainingTime?: number
+  orderDate: Date
 }
 
 export interface Item {
@@ -162,4 +165,26 @@ export interface Payment extends Res {
 export interface JSONWebTokenRevalidate extends Res {
   token: string
   user: User
+}
+
+export interface CardTimerProps {
+  cart: Card
+  index: number
+}
+
+export interface ItemTimerProps {
+  item: Item
+}
+
+export interface CountdownTimerProps {
+  targetDate: string
+  minutesToAdd: number
+  currentDate: string
+}
+
+export interface Timer {
+  hours: string
+  minutes: string
+  seconds: string
+  isFinished: boolean
 }
