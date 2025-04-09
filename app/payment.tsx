@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { useAppSelector } from '../redux/hooks'
 import WebView from 'react-native-webview'
-import { View, Pressable } from 'react-native'
+import { Pressable } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'

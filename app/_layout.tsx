@@ -26,9 +26,14 @@ const Layout: FC = () => {
             headerShown: false
           }}
         />
-
         <Stack.Screen
           name='payment'
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name='timer'
           options={{
             headerShown: false
           }}
