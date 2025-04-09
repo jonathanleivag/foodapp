@@ -15,7 +15,7 @@ const CardScreenComponent: FC<CardScreenComponentProps> = (props) => {
           source={{
             uri: props.image
           }}
-          className='w-full h-48 rounded-b-xl shadow-lg'
+          className='w-full h-72 rounded-b-xl shadow-lg'
           resizeMode='cover'
         />
         <View className='absolute top-4 left-4 bg-black/70 px-3 py-1.5 rounded-full'>
