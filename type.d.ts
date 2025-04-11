@@ -129,6 +129,9 @@ export interface Card extends Res {
   id: string
   remainingTime?: number
   orderDate: Date
+  code: string
+  retired: boolean
+  isDelivered: boolean
 }
 
 export interface Item {
@@ -180,6 +183,7 @@ export interface CountdownTimerProps {
   targetDate: string
   minutesToAdd: number
   currentDate: string
+  finished: boolean
 }
 
 export interface Timer {
@@ -187,4 +191,10 @@ export interface Timer {
   minutes: string
   seconds: string
   isFinished: boolean
+}
+
+export interface usePusherWebSocketProps {
+  channelName: string
+  eventName: string
+  onMessage: (data: any) => void
 }

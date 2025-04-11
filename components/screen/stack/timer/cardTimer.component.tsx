@@ -44,6 +44,7 @@ const CardTimer: FC<CardTimerProps> = ({ cart, index }) => {
             targetDate={cart.orderDate.toLocaleString('es-CL', {
               timeZone: 'America/Santiago'
             })}
+            finished={cart.isDelivered}
           />
         </Text>
       </View>
@@ -51,6 +52,14 @@ const CardTimer: FC<CardTimerProps> = ({ cart, index }) => {
       {cart.items.map((item) => (
         <ItemTimer key={item._id} item={item} />
       ))}
+
+      {cart.isDelivered && (
+        <View className='mt-2 pt-2 w-full border-secondary-200'>
+          <Text className='text-primary-900 text-4xl font-bold text-center'>
+            {cart.code}
+          </Text>
+        </View>
+      )}
 
       <View className='mt-2 pt-2 border-t border-secondary-200'>
         <Text className='text-secondary-800 font-bold text-right'>

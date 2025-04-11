@@ -5,7 +5,8 @@ import { CountdownTimerProps, Timer } from '../../../../type'
 const CountdownTimer: FC<CountdownTimerProps> = ({
   targetDate,
   minutesToAdd,
-  currentDate
+  currentDate,
+  finished
 }) => {
   const [referenceDate] = useState<Date>(() =>
     typeof currentDate === 'string' && currentDate !== ''
@@ -58,6 +59,14 @@ const CountdownTimer: FC<CountdownTimerProps> = ({
 
     return () => clearInterval(timer)
   }, [targetDate, minutesToAdd])
+
+  if (finished) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.timerText}>¡Pedido listo!</Text>
+      </View>
+    )
+  }
 
   if (timeLeft.isFinished) {
     return (
