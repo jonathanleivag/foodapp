@@ -1,17 +1,23 @@
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { View, Text, Pressable, FlatList } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Card } from '../../type'
 import CardTimer from '../../components/screen/stack/timer/cardTimer.component'
 import { useDataFetch } from '../../hooks/useDataFetch.hook'
-import RenderItem from '../../components/screen/cart/components/card.screen.component'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
+import {
+  initial,
+  isDelivered,
+  removeOrder
+} from '../../redux/order/order.slice'
+import { usePusherWebSocket } from '../../hooks/usePusherWebSocket.hook'
 
 const TimerScreen: FC = () => {
   const insets = useSafeAreaInsets()
   const router = useRouter()
-  const [carts, loading] = useDataFetch<Card[]>(
+  const [data, loading] = useDataFetch<Card[]>(
     '/cart/completed/user',
     false,
     0,
@@ -20,6 +26,31 @@ const TimerScreen: FC = () => {
     '',
     []
   )
+
+  const carts = useAppSelector((state) => state.order.carts)
+  const dispatchApp = useAppDispatch()
+  usePusherWebSocket({
+    channelName: 'isDeliveredCart',
+    eventName: 'delivered-cart',
+    onMessage: (data) => {
+      dispatchApp(isDelivered(data))
+    }
+  })
+
+  usePusherWebSocket({
+    channelName: 'retiredCart',
+    eventName: 'retired-cart',
+    onMessage: (data) => {
+      dispatchApp(removeOrder(data))
+    }
+  })
+
+  useEffect(() => {
+    if (!loading) {
+      dispatchApp(initial(data))
+    }
+    return () => {}
+  }, [loading, dispatchApp, data])
 
   const handlerCart = (): void => {
     router.back()
