@@ -3,6 +3,7 @@ import { View, Text, FlatList, ActivityIndicator } from 'react-native'
 import CardScreenComponent from '../../components/screen/card/card.screen.component'
 import { useDataFetch } from '../../hooks/useDataFetch.hook'
 import { PaginateProduct } from '../../type'
+import { usePusherWebSocket } from '../../hooks/usePusherWebSocket.hook'
 
 const HomeScreen: FC = () => {
   const [page, setPage] = useState<number>(1)
@@ -12,6 +13,18 @@ const HomeScreen: FC = () => {
 
   const [data, loading] = useDataFetch<PaginateProduct>('/product', true, page)
 
+  usePusherWebSocket({
+    channelName: 'product',
+    eventName: 'product-updated',
+    onMessage: (data) => {
+      if (data.isAvailable as boolean) {
+        setProducts((prev) => [data, ...prev])
+      } else {
+        setProducts((prev) => prev.filter((product) => product.id !== data.id))
+      }
+    }
+  })
+
   useEffect(() => {
     if (!loading && data.data?.length > 0) {
       if (page === 1) {
@@ -19,7 +32,7 @@ const HomeScreen: FC = () => {
       } else {
         setProducts((prev) => [...prev, ...data.data])
       }
-      setHasMore(data.data.length === 5)
+      setHasMore(data.meta.hasNextPage)
       setIsLoadingMore(false)
     } else if (!loading && data.data?.length === 0) {
       setHasMore(false)
@@ -28,7 +41,7 @@ const HomeScreen: FC = () => {
   }, [data, loading])
 
   const loadMore = (): void => {
-    if (!loading && hasMore && !isLoadingMore && products.length >= 5) {
+    if (!loading && hasMore && !isLoadingMore) {
       setIsLoadingMore(true)
       setPage((prev) => prev + 1)
     }
@@ -75,6 +88,7 @@ const HomeScreen: FC = () => {
             ingredientsBase={item.baseIngredients}
             ingredientsExtra={item.extraIngredients}
             ingredients={item.ingredients}
+            orderDate={item.createdAt}
           />
         )}
         keyExtractor={(item) => item.id}
