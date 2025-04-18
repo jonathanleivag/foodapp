@@ -3,5 +3,11 @@
   "editor.formatOnSave": true,
   "cSpell.language": "en, es",
   "css.lint.unknownAtRules": "ignore",
-  "cSpell.words": ["foodapp", "mobileprovision", "nativewind", "Pressable"]
+  "cSpell.words": [
+    "foodapp",
+    "mobileprovision",
+    "nativewind",
+    "Pressable",
+    "Schedulable"
+  ]
 }

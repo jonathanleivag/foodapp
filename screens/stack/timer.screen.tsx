@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import {
   initial,
   isDelivered,
+  removeIsDelivered,
   removeOrder
 } from '../../redux/order/order.slice'
 import { usePusherWebSocket } from '../../hooks/usePusherWebSocket.hook'
@@ -26,7 +27,6 @@ const TimerScreen: FC = () => {
     '',
     []
   )
-
   const carts = useAppSelector((state) => state.order.carts)
   const dispatchApp = useAppDispatch()
   usePusherWebSocket({
@@ -42,6 +42,7 @@ const TimerScreen: FC = () => {
     eventName: 'retired-cart',
     onMessage: (data) => {
       dispatchApp(removeOrder(data))
+      dispatchApp(removeIsDelivered(data))
     }
   })
 

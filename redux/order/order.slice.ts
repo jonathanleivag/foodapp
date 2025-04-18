@@ -4,10 +4,12 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 
 export interface OrderState {
   carts: Card[]
+  isDelivered: Card[]
 }
 
 const initialState: OrderState = {
-  carts: []
+  carts: [],
+  isDelivered: []
 }
 
 export const orderSlice = createSlice({
@@ -16,12 +18,21 @@ export const orderSlice = createSlice({
   reducers: {
     initial: (state, action: PayloadAction<Card[]>) => {
       state.carts = action.payload
+      state.isDelivered = action.payload.filter((item) => item.isDelivered)
     },
     addOrder: (state, action: PayloadAction<Card>) => {
       state.carts.push(action.payload)
     },
     removeOrder: (state, action: PayloadAction<Card>) => {
       state.carts = state.carts.filter((item) => item.id !== action.payload.id)
+    },
+    addIsDelivered: (state, action: PayloadAction<Card>) => {
+      state.isDelivered.push(action.payload)
+    },
+    removeIsDelivered: (state, action: PayloadAction<Card>) => {
+      state.isDelivered = state.isDelivered.filter(
+        (item) => item.id !== action.payload.id
+      )
     },
     isDelivered: (state, action: PayloadAction<Card>) => {
       state.carts = state.carts.map((item) => {
@@ -34,7 +45,13 @@ export const orderSlice = createSlice({
   }
 })
 
-export const { initial, addOrder, removeOrder, isDelivered } =
-  orderSlice.actions
+export const {
+  initial,
+  addOrder,
+  removeOrder,
+  isDelivered,
+  addIsDelivered,
+  removeIsDelivered
+} = orderSlice.actions
 
 export default orderSlice.reducer
